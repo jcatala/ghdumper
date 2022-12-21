@@ -4,3 +4,4 @@ cert.key
 key.pem
 key.unencrypted.pem
 .env
+*.req
