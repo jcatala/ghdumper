@@ -32,6 +32,14 @@ func handleConnection(conn net.Conn, conf *config.Config){
 	}
 	//resp.Header.Set("Content-Type", "text/plain")
 	//resp.Header.Set("Content-Length", "12")
+	/* This can be used on normal handler
+	if !conf.AutoCL {
+		// Adding 2 to not count the \n\n
+		pos := bytes.Index(rawResp, []byte("\n\n")) + 2
+		length := len(rawResp[pos:len(rawResp)-1])
+		fmt.Println("Position at: ", pos)
+		fmt.Println("Content length used: " , length)
+	}*/
 	body := `deadbeef`
 	fmt.Fprint(conn, "HTTP/1.1 200 OK\r\n")
 	fmt.Fprintf(conn, "Content-Length: %d\r\n", len(body))
@@ -66,19 +74,7 @@ func handleConnectionResponseFromFile(conn net.Conn, conf *config.Config){
 		fmt.Println("Sending: \n")
 		fmt.Println(string(rawResp))
 	}
-	/* This can be used on normal handler
-	if !conf.AutoCL {
-		// Adding 2 to not count the \n\n
-		pos := bytes.Index(rawResp, []byte("\n\n")) + 2
-		length := len(rawResp[pos:len(rawResp)-1])
-		fmt.Println("Position at: ", pos)
-		fmt.Println("Content length used: " , length)
-	}*/
-	// Write a response back to the client
-	//resp := http.Response{}
-	//resp.Header.Set("Content-Type", "text/plain")
-	//resp.Header.Set("Content-Length", "12")
-	//fmt.Fprint(conn, string(rawResp))
+
 	conn.Write(rawResp)
 	conn.Close()
 }
