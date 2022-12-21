@@ -1,3 +1,5 @@
 cert.pem
 cert.key
+key.pem
+key.unencrypted.pem
 .env
