@@ -6,6 +6,7 @@ import (
 	"github.com/jcatala/ghdumper/pkg/config"
 	"net"
 	"net/http"
+	"net/http/httputil"
 	"os"
 )
 
@@ -63,7 +64,14 @@ func handleConnectionResponseFromFile(conn net.Conn, conf *config.Config){
 		fmt.Println("Method:", req.Method)
 		fmt.Println("URL:", req.URL)
 		fmt.Println("Connection from: ", req.RemoteAddr)
-		fmt.Println("Request:")
+		fmt.Println("Request:\n")
+		respDump, err := httputil.DumpRequest(req, true)
+		if err != nil{
+			fmt.Println("error dumping the request.")
+		}
+		fmt.Println(string(respDump))
+		fmt.Println("End request dump.\n")
+
 	}
 	rawResp, err := os.ReadFile(conf.ResponseFile)
 	if err != nil{
